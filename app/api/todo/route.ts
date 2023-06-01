@@ -61,12 +61,11 @@ export const PUT = async (request: NextRequest) => {
 
 
 // export const DELETE= async (request:NextRequest)=>{
-//   const url = request.nextUrl
-//   const condition:any = url.searchParams.has("id");
-//   console.log(url)
+//   const req =await request.json();
+//   console.log(req +"OOOOOO")
 //   try {
-//     if (condition) {
-//     db.delete(todoTable).where(eq(condition,todoTable.id));
+//     if (req.id) {
+//     db.delete(todoTable).where(eq(req.id,todoTable.id)).returning({status:todoTable.task});
 //     return NextResponse.json({ success: `Record of id:deleted successfully` });
 //   }else
 //     {
