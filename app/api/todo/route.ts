@@ -8,7 +8,7 @@ export const GET = async (request: NextRequest) => {
   try {
     await sql`CREATE TABLE IF NOT EXISTS Todos(id serial, Task varchar(255))`;
     const res = await db.select().from(todoTable);
-    return NextResponse.json({ result: res });
+    return NextResponse.json({ data: res });
 
   }
    catch (error) {
@@ -22,9 +22,31 @@ export const POST = async (request: NextRequest) => {
 
   try {
     if (req.task) {
-      const res = await db.insert(todoTable).values({ task: req.task });
+      const res = await db.insert(todoTable).values({ task: req.task }).returning();
       return NextResponse.json({
         success: "Task Added Successfully",
+        data: res
+      });
+    } 
+    else {
+      return NextResponse.json({ error: "Task Field is Required" });
+    }
+  } 
+  catch (error) {
+    return NextResponse.json({ error: "Something Went Wrong" });
+  }
+};
+
+
+export const PUT = async (request: NextRequest) => {
+
+  const req = await request.json();
+
+  try {
+    if (req.id) {
+      const res = await db.update(todoTable).set({task:req.task}).where(eq(todoTable.id, req.id)).returning({status:todoTable.task});
+      return NextResponse.json({
+        success: "Task Updated Successfully",
         data: res
       });
     } 
