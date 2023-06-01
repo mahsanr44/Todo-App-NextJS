@@ -16,4 +16,4 @@ export const todoTable= pgTable("todos",{
 export type Todo= InferModel<typeof todoTable>
 export type newTodo= InferModel<typeof todoTable, "insert">
 
-export const db=drizzle(sql)
+export const db=drizzle(sql)   // making connection
